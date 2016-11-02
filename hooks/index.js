@@ -4,6 +4,7 @@ var ManagementClient = require("auth0").ManagementClient;
 var jwt = require('jsonwebtoken');
 var hooks = express.Router();
 var URLJoin = require('url-join');
+var auth0 = require('auth0-oauth2-express');
 
 module.exports = hooks;
 
