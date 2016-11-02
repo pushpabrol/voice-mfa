@@ -1,0 +1,17 @@
+extends ./layout.jade
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.display-4.m-b-2 Enter the code
+
+        p Hi #{user.name}
+        p Enter your voice call verification code
+        form(method='POST' action='/')
+          div.form-group
+            label(for='code') Code:
+            input#code.form-control(name='code', type='text', placeholder='Enter your code',required)
+            input#type.form-control(name='type', type='hidden', value='verifycode')
+            input#id.form-control(name='id', type='hidden', value='#{user.id}')
+          button.btn.btn-primary(type='submit') Verify

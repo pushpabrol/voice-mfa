@@ -1,0 +1,9 @@
+extends ./layout.jade
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+      h1= message
+      h2= error.status
+      pre #{error.code}

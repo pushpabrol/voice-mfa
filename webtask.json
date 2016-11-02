@@ -1,0 +1,64 @@
+{
+  "title": "Voice Based MFA",
+  "name": "voice-mfa",
+  "version": "1.0.0",
+  "author": "pushp.abrol@auth0.com",
+  "description": "Nothing",
+  "type": "application",
+  "logoUrl": "https://cdn.auth0.com/extensions/custom-social-connections/assets/logo.png",
+  "keywords": [
+    "auth0",
+    "extension"
+  ],
+  "auth0": {
+    "createClient": false,
+    "scopes": "create:rules read:rules delete:rules",
+    "onInstallPath": "/.extensions/on-install",
+    "onUninstallPath": "/.extensions/on-uninstall",
+    "onUpdatePath": "/.extensions/on-update"
+  },
+  "secrets": {
+    "SUMOLOGIC_URL": {
+      "description": "Sumologic URL - this is your Sumologic HTTP Collector Endpoint",
+      "required": true
+    },
+    "BATCH_SIZE": {
+      "description": "The ammount of logs to be read on each execution. Maximun is 100.",
+      "default": 100
+    },
+    "START_FROM": {
+      "description": "The Auth0 LogId from where you want to start."
+    },
+    "LOG_LEVEL": {
+      "description": "This allows you to specify the log level of events that need to be sent",
+      "type": "select",
+      "allowMultiple": true,
+      "options": [
+        {
+          "value": "-",
+          "text": ""
+        },
+        {
+          "value": "0",
+          "text": "Debug"
+        },
+        {
+          "value": "1",
+          "text": "Info"
+        },
+        {
+          "value": "2",
+          "text": "Warning"
+        },
+        {
+          "value": "3",
+          "text": "Error"
+        },
+        {
+          "value": "4",
+          "text": "Critical"
+        }
+      ]
+    }
+}
+}

@@ -1,0 +1,16 @@
+extends ./layout.jade
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.display-4.m-b-2 Call to Verify
+        p Please enter your phone number
+        // phone form
+        form(method='POST' action='/')
+          div.form-group
+            label(for='phone') Phone Number:
+            input#phone.form-control(name='phone', type='tel', placeholder='+1777-777-7777',required)
+            input#type.form-control(name='type', type='hidden', value='call')
+            input#id.form-control(name='id', type='hidden', value='#{id}')
+          button.btn.btn-primary(type='submit') Call me
