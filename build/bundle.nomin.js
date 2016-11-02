@@ -213,11 +213,11 @@ module.exports =
 	        var client = __webpack_require__(11)(vars.TWILIO_ID, vars.TWILIO_SECRET);
 	        console.log('before call, code: ' + snapshot.val().code);
 	        //Place a phone call, and respond with TwiML instructions from the given URL
-	        var webtaskdomain = vars.WEBTASK_DOMAIN;
+	
 	        client.makeCall({
 	          to: req.webtaskContext.data.phone, // Any number Twilio can call
 	          from: '+18638692482', // A number you bought from Twilio and can use for outbound communication
-	          url: 'https://' + webtaskdomain + '/voice-mfa/codefromprovider/' + encodeURIComponent(req.webtaskContext.data.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
+	          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.webtaskContext.data.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
 	
 	        }, function(err, responseData) {
 	          if (err) {
@@ -692,7 +692,7 @@ module.exports =
 	    env.TWILIO_ID = req.webtaskContext.data.TWILIO_ID;
 	    env.TWILIO_SECRET = req.webtaskContext.data.TWILIO_SECRET;
 	    env.AUTH0_DOMAIN = req.webtaskContext.data.AUTH0_DOMAIN;
-	    env.WEBTASK_DOMAIN = req.webtaskContext.data.WEBTASK_DOMAIN;
+	    env.WT_URL = req.webtaskContext.data.WT_URL;
 	    env.FB_PROJECT_ID = req.webtaskContext.data.FB_PROJECT_ID;
 	    env.FB_CLIENT_EMAIL = req.webtaskContext.data.FB_CLIENT_EMAIL;
 	    env.FB_PRIVATE_KEY = req.webtaskContext.data.FB_PRIVATE_KEY;
@@ -703,7 +703,7 @@ module.exports =
 	    env.TWILIO_ID = process.env.TWILIO_ID;
 	    env.TWILIO_SECRET = process.env.TWILIO_SECRET;
 	    env.AUTH0_DOMAIN = process.env.AUTH0_DOMAIN;
-	    env.WEBTASK_DOMAIN = process.env.WEBTASK_DOMAIN;
+	    env.WT_URL = process.env.WT_URL;
 	    env.FB_PROJECT_ID = process.env.FB_PROJECT_ID
 	    env.FB_CLIENT_EMAIL = process.env.FB_CLIENT_EMAIL
 	    env.FB_PRIVATE_KEY = process.env.FB_PRIVATE_KEY
@@ -829,47 +829,29 @@ module.exports =
 			"onUpdatePath": "/.extensions/on-update"
 		},
 		"secrets": {
-			"SUMOLOGIC_URL": {
-				"description": "Sumologic URL - this is your Sumologic HTTP Collector Endpoint",
+			"TWILIO_ID": {
+				"description": "Twilio Id to use for calling via Phone",
 				"required": true
 			},
-			"BATCH_SIZE": {
-				"description": "The ammount of logs to be read on each execution. Maximun is 100.",
-				"default": 100
+			"TWILIO_SECRET": {
+				"description": "Twilio Secret",
+				"required": true
 			},
-			"START_FROM": {
-				"description": "The Auth0 LogId from where you want to start."
+			"FB_PROJECT_ID": {
+				"description": "Firebase Service Account Project Id",
+				"required": true
 			},
-			"LOG_LEVEL": {
-				"description": "This allows you to specify the log level of events that need to be sent",
-				"type": "select",
-				"allowMultiple": true,
-				"options": [
-					{
-						"value": "-",
-						"text": ""
-					},
-					{
-						"value": "0",
-						"text": "Debug"
-					},
-					{
-						"value": "1",
-						"text": "Info"
-					},
-					{
-						"value": "2",
-						"text": "Warning"
-					},
-					{
-						"value": "3",
-						"text": "Error"
-					},
-					{
-						"value": "4",
-						"text": "Critical"
-					}
-				]
+			"FB_CLIENT_EMAIL": {
+				"description": "Firebase Service Account Cleint Email",
+				"required": true
+			},
+			"FB_PRIVATE_KEY": {
+				"description": "Private Key",
+				"required": true
+			},
+			"FB_DB_URL": {
+				"description": "Firebase Database Url",
+				"required": true
 			}
 		}
 	};

@@ -18,47 +18,29 @@
     "onUpdatePath": "/.extensions/on-update"
   },
   "secrets": {
-    "SUMOLOGIC_URL": {
-      "description": "Sumologic URL - this is your Sumologic HTTP Collector Endpoint",
+    "TWILIO_ID": {
+      "description": "Twilio Id to use for calling via Phone",
       "required": true
     },
-    "BATCH_SIZE": {
-      "description": "The ammount of logs to be read on each execution. Maximun is 100.",
-      "default": 100
+    "TWILIO_SECRET": {
+      "description": "Twilio Secret",
+      "required": true
     },
-    "START_FROM": {
-      "description": "The Auth0 LogId from where you want to start."
+    "FB_PROJECT_ID": {
+      "description": "Firebase Service Account Project Id",
+      "required": true
     },
-    "LOG_LEVEL": {
-      "description": "This allows you to specify the log level of events that need to be sent",
-      "type": "select",
-      "allowMultiple": true,
-      "options": [
-        {
-          "value": "-",
-          "text": ""
-        },
-        {
-          "value": "0",
-          "text": "Debug"
-        },
-        {
-          "value": "1",
-          "text": "Info"
-        },
-        {
-          "value": "2",
-          "text": "Warning"
-        },
-        {
-          "value": "3",
-          "text": "Error"
-        },
-        {
-          "value": "4",
-          "text": "Critical"
-        }
-      ]
+    "FB_CLIENT_EMAIL": {
+      "description": "Firebase Service Account Cleint Email",
+      "required": true
+    },
+    "FB_PRIVATE_KEY": {
+      "description": "Private Key",
+      "required": true
+    },
+    "FB_DB_URL": {
+      "description": "Firebase Database Url",
+      "required": true
     }
 }
 }
