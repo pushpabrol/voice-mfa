@@ -4,11 +4,11 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "start": "npm run build-dev && node dist/voice-mfa.js",
-    "start-nomin": "npm run build-dev && node dist/voice-mfa.nomin.js",
+    "start": "npm run build-dev && node build/bundle.js",
+    "start-nomin": "npm run build-dev && node build/voice-mfa.nomin.js",
     "webpack": "webpack --config webpack.dev.config.js",
     "wt": "webpack --config webpack.wt.config.js",
-    "clean": "rm -rf dist && mkdir -p dist",
+    "clean": "rm -rf build && mkdir -p build",
     "build": "npm run clean && npm run wt",
     "build-dev": "npm run clean && npm run webpack"
   },

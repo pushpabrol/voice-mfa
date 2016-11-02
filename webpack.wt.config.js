@@ -18,8 +18,8 @@ module.exports = Request.get(LIST_MODULES_URL, {
   return {
     entry: './webtask',
     output: {
-      path: './dist',
-      filename: pkg.name + '.js',
+      path: './build',
+      filename: 'bundle.js',
       library: true,
       libraryTarget: 'commonjs2',
     },
@@ -87,7 +87,7 @@ module.exports = Request.get(LIST_MODULES_URL, {
         }
       }),
       new WebpackOnBuildPlugin(function() {
-        var path = './dist/voice-mfa.js';
+        var path = './build/bundle.js';
         var bundle = fs.readFileSync(path, 'utf8');
         bundle = bundle.replace(/require\("firebase"\)/ig, 'require("firebase@3.1.0")');
         bundle = bundle.replace(/require\("auth0"\)/ig, 'require("auth0@2.1.0")');
