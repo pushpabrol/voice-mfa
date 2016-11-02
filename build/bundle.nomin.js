@@ -822,7 +822,7 @@ module.exports =
 			"extension"
 		],
 		"auth0": {
-			"createClient": false,
+			"createClient": true,
 			"scopes": "create:rules read:rules delete:rules",
 			"onInstallPath": "/.extensions/on-install",
 			"onUninstallPath": "/.extensions/on-uninstall",
