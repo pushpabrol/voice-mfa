@@ -890,6 +890,14 @@ module.exports =
 	  }
 	}
 	
+	hooks.use(function(req, res, next) {
+	  auth0({
+	    scopes: req.webtaskContext.data.AUTH0_SCOPES,
+	    clientId: req.webtaskContext.data.AUTH0_CLIENT_ID,
+	    rootTenantAuthority: 'https://' + req.webtaskContext.data.AUTH0_DOMAIN
+	  })(req, res, next)
+	});
+	
 	// Validate JWT for on-install
 	hooks.use('/on-install', validateJwt('/.extensions/on-install'));
 	hooks.use('/on-uninstall', validateJwt('/.extensions/on-uninstall'));
