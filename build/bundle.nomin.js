@@ -812,7 +812,7 @@ module.exports =
 	module.exports = {
 		"title": "Voice Based MFA",
 		"name": "voice-mfa",
-		"version": "1.0.0",
+		"version": "2.0.0",
 		"author": "pushp.abrol@auth0.com",
 		"description": "Nothing",
 		"type": "application",
