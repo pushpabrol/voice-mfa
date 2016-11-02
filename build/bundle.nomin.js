@@ -169,7 +169,7 @@ module.exports =
 	
 	app.post('/codefromprovider/*', function(req, res) {
 	  console.log('codefromprovider');
-	  var pathname = __webpack_require__(25).parse(req.url, true).pathname;
+	  var pathname = __webpack_require__(26).parse(req.url, true).pathname;
 	  var pathparts = pathname.split("/");
 	  var data = decodeURIComponent(pathparts[pathparts.length - 1]);
 	  console.log(data);
@@ -866,6 +866,7 @@ module.exports =
 	var jwt = __webpack_require__(23);
 	var hooks = express.Router();
 	var URLJoin = __webpack_require__(24);
+	var auth0 = __webpack_require__(25);
 	
 	module.exports = hooks;
 	
@@ -1060,6 +1061,12 @@ module.exports =
 
 /***/ },
 /* 25 */
+/***/ function(module, exports) {
+
+	module.exports = require("auth0-oauth2-express");
+
+/***/ },
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = require("url");
