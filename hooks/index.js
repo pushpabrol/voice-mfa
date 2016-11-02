@@ -80,12 +80,13 @@ hooks.delete('/on-uninstall', function(req, res) {
     .rules.getAll()
     .then(function(rules) {
       var rule;
+      console.log(rules.length);
       for (var i = 0; i < rules.length; i++) {
         if (rules[i].name === 'voice-mfa-rule')
           rule = rules[i];
       }
 
-      if (rule) {
+      if (rule != null && typeof (rule) != 'undefined') {
         req.auth0
           .rules.delete({
           id: rule.id
