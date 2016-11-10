@@ -142,15 +142,16 @@ app.post('/codefromprovider/*', function(req, res) {
 
 app.post('/', function(req, res) {
   console.log('In Post');
+  console.log(vars);
   if (req.body.type == 'call') {
     console.log('call');
     if (req.body.phone !== '') {
-
+      vars.setVars(req);
       Firebase(vars).ref(encodeURIComponent(req.body.id)).once("value", function(snapshot) {
         var client = require('twilio')(vars.TWILIO_ID, vars.TWILIO_SECRET);
         console.log('before call, code: ' + snapshot.val().code);
         //Place a phone call, and respond with TwiML instructions from the given URL
-        console.log(vars);
+        console.log("vars" + vars);
         client.makeCall({
           to: req.body.phone, // Any number Twilio can call
           from: '+18638692482', // A number you bought from Twilio and can use for outbound communication

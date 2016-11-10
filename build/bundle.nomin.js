@@ -204,15 +204,16 @@ module.exports =
 	
 	app.post('/', function(req, res) {
 	  console.log('In Post');
+	  console.log(vars);
 	  if (req.webtaskContext.data.type == 'call') {
 	    console.log('call');
 	    if (req.webtaskContext.data.phone !== '') {
-	
+	      vars.setVars(req);
 	      Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).once("value", function(snapshot) {
 	        var client = __webpack_require__(11)(vars.TWILIO_ID, vars.TWILIO_SECRET);
 	        console.log('before call, code: ' + snapshot.val().code);
 	        //Place a phone call, and respond with TwiML instructions from the given URL
-	        console.log(vars);
+	        console.log("vars" + vars);
 	        client.makeCall({
 	          to: req.webtaskContext.data.phone, // Any number Twilio can call
 	          from: '+18638692482', // A number you bought from Twilio and can use for outbound communication
