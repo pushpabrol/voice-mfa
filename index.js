@@ -144,20 +144,19 @@ app.post('/codefromprovider/*', function(req, res) {
 
 app.post('/', function(req, res) {
   console.log('In Post');
-  console.log(vars);
-  if (req.body.type == 'call') {
+  console.log(req.webtaskContext.data);
+  if (req.webtaskContext.data.type == 'call') {
     console.log('call');
-    if (req.body.phone !== '') {
-      vars.setVars(req);
-      Firebase(vars).ref(encodeURIComponent(req.body.id)).once("value", function(snapshot) {
+    if (req.webtaskContext.data.phone !== '') {
+      Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).once("value", function(snapshot) {
         var client = require('twilio')(vars.TWILIO_ID, vars.TWILIO_SECRET);
         console.log('before call, code: ' + snapshot.val().code);
         //Place a phone call, and respond with TwiML instructions from the given URL
         console.log("vars" + vars);
         client.makeCall({
-          to: req.body.phone, // Any number Twilio can call
+          to: req.webtaskContext.data.phone, // Any number Twilio can call
           from: '+18638692482', // A number you bought from Twilio and can use for outbound communication
-          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.body.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
+          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.webtaskContext.data.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
 
         }, function(err, responseData) {
           if (err) {
@@ -174,7 +173,7 @@ app.post('/', function(req, res) {
             res.status(200).send(inputcode({
               user: {
                 'name': snapshot.val().name,
-                'id': req.body.id
+                'id': req.webtaskContext.data.id
               }
             }));
           }
@@ -201,17 +200,17 @@ app.post('/', function(req, res) {
     }
   }
 
-  if (req.body.type == 'verifycode') {
+  if (req.webtaskContext.data.type == 'verifycode') {
 
     console.log('here-verify');
-    console.log(req.body.id);
-    console.log(req.body.code);
+    console.log(req.webtaskContext.data.id);
+    console.log(req.webtaskContext.data.code);
 
-    Firebase(vars).ref(encodeURIComponent(req.body.id)).once("value", function(snapshot) {
-      if (req.body.code == snapshot.val().code) {
+    Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).once("value", function(snapshot) {
+      if (req.webtaskContext.data.code == snapshot.val().code) {
         var state = snapshot.val().state;
-        // Firebase(vars).ref(encodeURIComponent(req.body.id)).off();
-        // Firebase(vars).ref(encodeURIComponent(req.body.id)).remove(function(error) {
+        // Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).off();
+        // Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).remove(function(error) {
         //   console.log(error ? "Uh oh!" : "Success!");
         // });
 

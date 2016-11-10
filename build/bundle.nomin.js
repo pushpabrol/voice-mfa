@@ -206,11 +206,10 @@ module.exports =
 	
 	app.post('/', function(req, res) {
 	  console.log('In Post');
-	  console.log(vars);
+	  console.log(req.webtaskContext.data);
 	  if (req.webtaskContext.data.type == 'call') {
 	    console.log('call');
 	    if (req.webtaskContext.data.phone !== '') {
-	      vars.setVars(req);
 	      Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).once("value", function(snapshot) {
 	        var client = __webpack_require__(11)(vars.TWILIO_ID, vars.TWILIO_SECRET);
 	        console.log('before call, code: ' + snapshot.val().code);
@@ -607,7 +606,7 @@ module.exports =
 	var jade_mixins = {};
 	var jade_interp;
 	;var locals_for_with = (locals || {});(function (id, title) {
-	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Call to Verify</h1><p>Please enter your phone number</p><!-- phone form--><form method=\"POST\" action=\"/api/run/pushp/7c53f537927a4c2f3be8690e07505954\"><div class=\"form-group\"><label for=\"phone\">Phone Number:</label><input id=\"phone\" name=\"phone\" type=\"tel\" placeholder=\"+1777-777-7777\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"call\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Call me</button></form></div></div></div></body></html>");}.call(this,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined));;return buf.join("");
+	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Call to Verify</h1><p>Please enter your phone number</p><!-- phone form--><form method=\"POST\" action=\"/7c53f537927a4c2f3be8690e07505954\"><div class=\"form-group\"><label for=\"phone\">Phone Number:</label><input id=\"phone\" name=\"phone\" type=\"tel\" placeholder=\"+1777-777-7777\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"call\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Call me</button></form></div></div></div></body></html>");}.call(this,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined));;return buf.join("");
 	}
 
 /***/ },
