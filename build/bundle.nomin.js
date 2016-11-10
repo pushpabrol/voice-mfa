@@ -641,7 +641,7 @@ module.exports =
 	  var svcAccount = {
 	    projectId: vars.FB_PROJECT_ID,
 	    clientEmail: vars.FB_CLIENT_EMAIL,
-	    privateKey: new Buffer(vars.FB_PRIVATE_KEY || '', 'base64').toString('utf8')
+	    privateKey: new Buffer(vars.FB_PRIVATE_KEY, 'base64').toString('utf8').replace(/\\n/g, '\n')
 	  }
 	
 	  console.log(svcAccount);
