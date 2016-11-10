@@ -3,13 +3,12 @@ function FirebaseDatabase(vars) {
 
   var firebase = require("firebase");
   var uuid = require('uuid');
-  var pk = vars.FB_PRIVATE_KEY;
   console.log("firebase");
-  console.log(pk);
+  console.log(vars.FB_PRIVATE_KEY);
   var svcAccount = {
     projectId: vars.FB_PROJECT_ID,
     clientEmail: vars.FB_CLIENT_EMAIL,
-    privateKey: vars.FB_PRIVATE_KEY.replaceAll('\\n', '\n')
+    privateKey: vars.FB_PRIVATE_KEY.replace('\\n', '\n')
   }
 
   console.log(svcAccount);
