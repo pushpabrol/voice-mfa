@@ -36,7 +36,7 @@ module.exports = Request.get(LIST_MODULES_URL, {
               {
                 pattern: /\'\/\'/ig,
                 replacement: function(match, p1, offset, string) {
-                  return "'/voice-mfa'";
+                  return "'/'";
                 }.bind(this)
               }
             ]
