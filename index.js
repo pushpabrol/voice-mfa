@@ -150,7 +150,7 @@ app.post('/', function(req, res) {
         var client = require('twilio')(vars.TWILIO_ID, vars.TWILIO_SECRET);
         console.log('before call, code: ' + snapshot.val().code);
         //Place a phone call, and respond with TwiML instructions from the given URL
-
+        console.log(vars.WT_URL)
         client.makeCall({
           to: req.body.phone, // Any number Twilio can call
           from: '+18638692482', // A number you bought from Twilio and can use for outbound communication
