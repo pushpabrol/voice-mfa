@@ -8,7 +8,7 @@ function FirebaseDatabase(vars) {
   var svcAccount = {
     projectId: vars.FB_PROJECT_ID,
     clientEmail: vars.FB_CLIENT_EMAIL,
-    privateKey: vars.FB_PRIVATE_KEY
+    privateKey: new Buffer(vars.FB_PRIVATE_KEY || '', 'base64').toString('utf8')
   }
 
   console.log(svcAccount);
