@@ -77,6 +77,7 @@ module.exports =
 	app.use(bodyParser.urlencoded({
 	  extended: true
 	}));
+	
 	app.use('/.extensions', __webpack_require__(20));
 	
 	app.use(function(req, res, next) {
@@ -85,9 +86,9 @@ module.exports =
 	});
 	
 	
-	//app.use(logger('dev'));
+	app.use(logger('dev'));
 	
-	//app.use(cookieParser());
+	app.use(cookieParser());
 	
 	
 	
@@ -200,8 +201,8 @@ module.exports =
 	});
 	
 	app.post('/', function(req, res) {
-	  console.log(req);
 	  console.log('In Post');
+	  console.log(req.webtaskContext.data);
 	  if (req.webtaskContext.data.type == 'call') {
 	    console.log('call');
 	    if (req.webtaskContext.data.phone !== '') {
