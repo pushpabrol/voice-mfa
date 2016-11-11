@@ -165,6 +165,8 @@ app.post('/', function(req, res) {
             console.log('after call no error');
             console.log(snapshot.val().name);
             res.header("Content-Type", 'text/html');
+            console.log('here1');
+            console.log(vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]);
             res.status(200).send(inputcode({
               user: {
                 'name': snapshot.val().name,
