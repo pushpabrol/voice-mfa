@@ -50,7 +50,7 @@ module.exports = Request.get(LIST_MODULES_URL, {
                 pattern: /req\.body/ig,
                 replacement: function(match, p1, offset, string) {
 
-                  return 'req.webtaskContext.data';
+                  return 'req.webtaskContext.body';
                 }.bind(this)
               }
             ]

@@ -77,7 +77,6 @@ module.exports =
 	app.use(bodyParser.urlencoded({
 	  extended: true
 	}));
-	
 	app.use('/.extensions', __webpack_require__(20));
 	
 	app.use(function(req, res, next) {
@@ -86,9 +85,9 @@ module.exports =
 	});
 	
 	
-	//app.use(logger('dev'));
+	app.use(logger('dev'));
 	
-	//app.use(cookieParser());
+	app.use(cookieParser());
 	
 	
 	
@@ -203,18 +202,18 @@ module.exports =
 	app.post('/', function(req, res) {
 	  console.log('In Post');
 	  console.log(req);
-	  if (req.webtaskContext.data.type == 'call') {
+	  if (req.webtaskContext.body.type == 'call') {
 	    console.log('call');
-	    if (req.webtaskContext.data.phone !== '') {
-	      Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).once("value", function(snapshot) {
+	    if (req.webtaskContext.body.phone !== '') {
+	      Firebase(vars).ref(encodeURIComponent(req.webtaskContext.body.id)).once("value", function(snapshot) {
 	        var client = __webpack_require__(11)(vars.TWILIO_ID, vars.TWILIO_SECRET);
 	        console.log('before call, code: ' + snapshot.val().code);
 	        //Place a phone call, and respond with TwiML instructions from the given URL
 	        console.log("vars" + vars);
 	        client.makeCall({
-	          to: req.webtaskContext.data.phone, // Any number Twilio can call
+	          to: req.webtaskContext.body.phone, // Any number Twilio can call
 	          from: '+18638692482', // A number you bought from Twilio and can use for outbound communication
-	          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.webtaskContext.data.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
+	          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.webtaskContext.body.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
 	
 	        }, function(err, responseData) {
 	          if (err) {
@@ -231,7 +230,7 @@ module.exports =
 	            res.status(200).send(inputcode({
 	              user: {
 	                'name': snapshot.val().name,
-	                'id': req.webtaskContext.data.id
+	                'id': req.webtaskContext.body.id
 	              }
 	            }));
 	          }
@@ -258,17 +257,17 @@ module.exports =
 	    }
 	  }
 	
-	  if (req.webtaskContext.data.type == 'verifycode') {
+	  if (req.webtaskContext.body.type == 'verifycode') {
 	
 	    console.log('here-verify');
-	    console.log(req.webtaskContext.data.id);
-	    console.log(req.webtaskContext.data.code);
+	    console.log(req.webtaskContext.body.id);
+	    console.log(req.webtaskContext.body.code);
 	
-	    Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).once("value", function(snapshot) {
-	      if (req.webtaskContext.data.code == snapshot.val().code) {
+	    Firebase(vars).ref(encodeURIComponent(req.webtaskContext.body.id)).once("value", function(snapshot) {
+	      if (req.webtaskContext.body.code == snapshot.val().code) {
 	        var state = snapshot.val().state;
-	        // Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).off();
-	        // Firebase(vars).ref(encodeURIComponent(req.webtaskContext.data.id)).remove(function(error) {
+	        // Firebase(vars).ref(encodeURIComponent(req.webtaskContext.body.id)).off();
+	        // Firebase(vars).ref(encodeURIComponent(req.webtaskContext.body.id)).remove(function(error) {
 	        //   console.log(error ? "Uh oh!" : "Success!");
 	        // });
 	
