@@ -1,7 +1,8 @@
 extends ./layout.jade
-- var getPath = function(){
--   return window.location.pathname;
-- }
+script.
+      var getPath = function(){
+      return window.location.pathname;
+      }
 block content
   .main.container
     .row
@@ -9,7 +10,7 @@ block content
         h1.display-4.m-b-2 Call to Verify
         p Please enter your phone number
         // phone form
-        form(method='POST' action='/' name='#{getPath()}')
+        form(method='POST' action='/' name='/#{path}')
           div.form-group
             label(for='phone') Phone Number:
             input#phone.form-control(name='phone', type='tel', placeholder='+1777-777-7777',required)
