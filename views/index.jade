@@ -9,6 +9,7 @@ block content
         // phone form
 
         - var page = window.location.pathname;
+        - console.log(page);
         form(method='POST' action='/#{page}' name='/#{path}')
           div.form-group
             label(for='phone') Phone Number:
