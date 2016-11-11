@@ -61,7 +61,7 @@ app.get('/', function(req, res) {
           res.status(200).send(landingpage({
             title: 'Verify code by Phone',
             id: req.query.id,
-            path: 'api/run/pushp/7c53f537927a4c2f3be8690e07505954'
+            path: vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
           }));
 
         }
@@ -168,7 +168,8 @@ app.post('/', function(req, res) {
             res.status(200).send(inputcode({
               user: {
                 'name': snapshot.val().name,
-                'id': req.body.id
+                'id': req.body.id,
+                path: vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
               }
             }));
           }
