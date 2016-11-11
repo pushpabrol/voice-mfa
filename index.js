@@ -140,7 +140,7 @@ app.post('/codefromprovider/*', function(req, res) {
 
 app.post('/', function(req, res) {
   console.log('In Post');
-  console.log(req.webtaskContext);
+  console.log(req);
   if (req.body.type == 'call') {
     console.log('call');
     if (req.body.phone !== '') {
