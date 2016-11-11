@@ -76,10 +76,11 @@ module.exports =
 	
 	//*****DO NOT REMOVE THE COMMENT SECTION BELOW****
 	/*~~~~~~*/
-	app.use(bodyParser.urlencoded({
-	  extended: false
-	}));
 	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({
+	  extended: true
+	}));
+	
 	
 	
 	app.use('/.extensions', __webpack_require__(20));

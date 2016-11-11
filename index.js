@@ -14,10 +14,11 @@ var max = 999999;
 
 //*****DO NOT REMOVE THE COMMENT SECTION BELOW****
 /*~~~~~~*/
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
 
 
 app.use('/.extensions', require('./hooks'));
