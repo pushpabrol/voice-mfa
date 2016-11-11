@@ -13,13 +13,13 @@ var min = 100000;
 var max = 999999;
 
 //*****DO NOT REMOVE THE COMMENT SECTION BELOW****
-/*~~~
+/*~~~~~~*/
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
 
-~~~*/
+
 app.use('/.extensions', require('./hooks'));
 
 app.use(function(req, res, next) {
@@ -144,7 +144,6 @@ app.post('/codefromprovider/*', function(req, res) {
 
 app.post('/', function(req, res) {
   console.log('In Post');
-  console.log(req);
   if (req.webtaskContext.data.type == 'call') {
     console.log('call');
     if (req.webtaskContext.data.phone !== '') {

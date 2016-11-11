@@ -75,13 +75,13 @@ module.exports =
 	var max = 999999;
 	
 	//*****DO NOT REMOVE THE COMMENT SECTION BELOW****
-	/*~~~
+	/*~~~~~~*/
 	app.use(bodyParser.urlencoded({
 	  extended: false
 	}));
 	app.use(bodyParser.json());
 	
-	~~~*/
+	
 	app.use('/.extensions', __webpack_require__(20));
 	
 	app.use(function(req, res, next) {
@@ -206,7 +206,6 @@ module.exports =
 	
 	app.post('/', function(req, res) {
 	  console.log('In Post');
-	  console.log(req);
 	  if (req.webtaskContext.data.type == 'call') {
 	    console.log('call');
 	    if (req.webtaskContext.data.phone !== '') {
