@@ -14,7 +14,7 @@ var max = 999999;
 
 //*****DO NOT REMOVE THE COMMENT SECTION BELOW****
 /*~~~~~~*/
-app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
