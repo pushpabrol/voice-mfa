@@ -169,7 +169,7 @@ app.post('/', function(req, res) {
               user: {
                 'name': snapshot.val().name,
                 'id': req.body.id,
-                path: vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+                'path': vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
               }
             }));
           }

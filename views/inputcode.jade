@@ -8,7 +8,7 @@ block content
 
         p Hi #{user.name}
         p Enter your voice call verification code
-        form(method='POST' action='/#{path}')
+        form(method='POST' action='/#{user.path}')
           div.form-group
             label(for='code') Code:
             input#code.form-control(name='code', type='text', placeholder='Enter your code',required)
