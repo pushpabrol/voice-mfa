@@ -145,6 +145,7 @@ app.post('/codefromprovider/*', function(req, res) {
 
 app.post('/', function(req, res) {
   console.log('In Post');
+  console.log(req.body);
   if (req.webtaskContext.data.type == 'call') {
     console.log('call');
     if (req.webtaskContext.data.phone !== '') {

@@ -207,6 +207,7 @@ module.exports =
 	
 	app.post('/', function(req, res) {
 	  console.log('In Post');
+	  console.log(req.webtaskContext.data);
 	  if (req.webtaskContext.data.type == 'call') {
 	    console.log('call');
 	    if (req.webtaskContext.data.phone !== '') {
