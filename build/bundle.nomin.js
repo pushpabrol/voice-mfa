@@ -202,18 +202,18 @@ module.exports =
 	app.post('/', function(req, res) {
 	  console.log('In Post');
 	  console.log(req);
-	  if (req.webtaskContext.body.type == 'call') {
+	  if (req.body.type == 'call') {
 	    console.log('call');
-	    if (req.webtaskContext.body.phone !== '') {
-	      Firebase(vars).ref(encodeURIComponent(req.webtaskContext.body.id)).once("value", function(snapshot) {
+	    if (req.body.phone !== '') {
+	      Firebase(vars).ref(encodeURIComponent(req.body.id)).once("value", function(snapshot) {
 	        var client = __webpack_require__(11)(vars.TWILIO_ID, vars.TWILIO_SECRET);
 	        console.log('before call, code: ' + snapshot.val().code);
 	        //Place a phone call, and respond with TwiML instructions from the given URL
 	        console.log("vars" + vars);
 	        client.makeCall({
-	          to: req.webtaskContext.body.phone, // Any number Twilio can call
+	          to: req.body.phone, // Any number Twilio can call
 	          from: '+18638692482', // A number you bought from Twilio and can use for outbound communication
-	          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.webtaskContext.body.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
+	          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.body.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
 	
 	        }, function(err, responseData) {
 	          if (err) {
@@ -230,7 +230,7 @@ module.exports =
 	            res.status(200).send(inputcode({
 	              user: {
 	                'name': snapshot.val().name,
-	                'id': req.webtaskContext.body.id
+	                'id': req.body.id
 	              }
 	            }));
 	          }
@@ -257,17 +257,17 @@ module.exports =
 	    }
 	  }
 	
-	  if (req.webtaskContext.body.type == 'verifycode') {
+	  if (req.body.type == 'verifycode') {
 	
 	    console.log('here-verify');
-	    console.log(req.webtaskContext.body.id);
-	    console.log(req.webtaskContext.body.code);
+	    console.log(req.body.id);
+	    console.log(req.body.code);
 	
-	    Firebase(vars).ref(encodeURIComponent(req.webtaskContext.body.id)).once("value", function(snapshot) {
-	      if (req.webtaskContext.body.code == snapshot.val().code) {
+	    Firebase(vars).ref(encodeURIComponent(req.body.id)).once("value", function(snapshot) {
+	      if (req.body.code == snapshot.val().code) {
 	        var state = snapshot.val().state;
-	        // Firebase(vars).ref(encodeURIComponent(req.webtaskContext.body.id)).off();
-	        // Firebase(vars).ref(encodeURIComponent(req.webtaskContext.body.id)).remove(function(error) {
+	        // Firebase(vars).ref(encodeURIComponent(req.body.id)).off();
+	        // Firebase(vars).ref(encodeURIComponent(req.body.id)).remove(function(error) {
 	        //   console.log(error ? "Uh oh!" : "Success!");
 	        // });
 	

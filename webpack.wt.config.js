@@ -43,20 +43,6 @@ module.exports = Request.get(LIST_MODULES_URL, {
           })
         },
         {
-          test: /\.js$/,
-          loader: StringReplacePlugin.replace({
-            replacements: [
-              {
-                pattern: /req\.body/ig,
-                replacement: function(match, p1, offset, string) {
-
-                  return 'req.webtaskContext.body';
-                }.bind(this)
-              }
-            ]
-          })
-        },
-        {
           test: /\.json$/,
           loader: 'json'
         }
