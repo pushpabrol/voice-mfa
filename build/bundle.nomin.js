@@ -86,9 +86,9 @@ module.exports =
 	});
 	
 	
-	app.use(logger('dev'));
+	//app.use(logger('dev'));
 	
-	app.use(cookieParser());
+	//app.use(cookieParser());
 	
 	
 	

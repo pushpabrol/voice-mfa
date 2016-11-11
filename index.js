@@ -24,9 +24,9 @@ app.use(function(req, res, next) {
 });
 
 
-app.use(logger('dev'));
+//app.use(logger('dev'));
 
-app.use(cookieParser());
+//app.use(cookieParser());
 
 
 
