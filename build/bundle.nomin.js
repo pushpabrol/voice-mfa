@@ -206,8 +206,10 @@ module.exports =
 	});
 	
 	app.post('/', function(req, res) {
-	  console.log('In Post');
 	  console.log(req.webtaskContext.data);
+	
+	  console.log('In Post');
+	
 	  if (req.webtaskContext.data.type == 'call') {
 	    console.log('call');
 	    if (req.webtaskContext.data.phone !== '') {
@@ -693,7 +695,7 @@ module.exports =
 	
 	function setEnvironment(req) {
 	  if (req.webtaskContext != null) {
-	    console.log(req.webtaskContext.data);
+	
 	    env.TWILIO_ID = req.webtaskContext.data.TWILIO_ID;
 	    env.TWILIO_SECRET = req.webtaskContext.data.TWILIO_SECRET;
 	    env.AUTH0_DOMAIN = req.webtaskContext.data.AUTH0_DOMAIN;
