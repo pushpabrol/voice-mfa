@@ -77,9 +77,7 @@ module.exports =
 	//*****DO NOT REMOVE THE COMMENT SECTION BELOW****
 	/*~~~~~~*/
 	
-	app.use(bodyParser.urlencoded({
-	  extended: true
-	}));
+	app.use(bodyParser);
 	
 	
 	
@@ -206,7 +204,7 @@ module.exports =
 	});
 	
 	app.post('/', function(req, res) {
-	  console.log(req.webtaskContext.data);
+	  console.log(req);
 	
 	  console.log('In Post');
 	

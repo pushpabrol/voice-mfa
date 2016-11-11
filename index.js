@@ -15,9 +15,7 @@ var max = 999999;
 //*****DO NOT REMOVE THE COMMENT SECTION BELOW****
 /*~~~~~~*/
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser);
 
 
 
@@ -144,7 +142,7 @@ app.post('/codefromprovider/*', function(req, res) {
 });
 
 app.post('/', function(req, res) {
-  console.log(req.body);
+  console.log(req);
 
   console.log('In Post');
 
