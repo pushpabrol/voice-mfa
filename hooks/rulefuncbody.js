@@ -56,4 +56,4 @@ function getRulesBody(vars) {
 
 
 
-module.exports = getRulesBody(vars);
+module.exports = getRulesBody;

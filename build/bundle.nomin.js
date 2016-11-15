@@ -852,7 +852,7 @@ module.exports =
 	
 	  req.auth0.rules.create({
 	    name: 'voice-mfa-rule',
-	    script: rulefuncbody,
+	    script: rulefuncbody(vars),
 	    order: 2,
 	    enabled: true,
 	    stage: "login_success"
@@ -1055,7 +1055,7 @@ module.exports =
 	
 	
 	
-	module.exports = getRulesBody(vars);
+	module.exports = getRulesBody;
 
 
 /***/ },
