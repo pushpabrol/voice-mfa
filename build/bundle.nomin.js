@@ -1057,7 +1057,7 @@ module.exports =
 	
 	
 	
-	module.exports = getRulesBody(vars);
+	module.exports = getRulesBody;
 
 
 /***/ },
