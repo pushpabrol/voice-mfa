@@ -1003,7 +1003,9 @@ module.exports =
 	    var min = 100000;
 	    var max = 999999;
 	    var num = Math.floor(Math.random() * (max - min + 1)) + min;
+	    /*
 	
+	     */
 	
 	    if (context.protocol !== 'redirect-callback') {
 	
@@ -1011,21 +1013,21 @@ module.exports =
 	      var uuid = __webpack_require__(14);
 	      var FBApp = firebase.initializeApp({
 	        serviceAccount: {
-	          projectId: "fb-name",
-	          clientEmail: "fb-client-email",
-	          privateKey: "fb-private-key"
+	          projectId: 'fb-name',
+	          clientEmail: 'fb-client-email',
+	          privateKey: 'fb-private-key'
 	        },
-	        databaseURL: "fb-db-url"
+	        databaseURL: 'fb-db-url'
 	      }, '"' + uuid.v4() + '"');
 	
 	      var userData = {
-	        "code": num,
-	        "created_at": (new Date()).getTime(),
-	        "email": user.email || user.nickname || user.name,
-	        "incorrect_response": false,
-	        "name": user.name,
-	        "status": "call_pending",
-	        "tries": 0
+	        'code': num,
+	        'created_at': (new Date()).getTime(),
+	        'email': user.email || user.nickname || user.name,
+	        'incorrect_response': false,
+	        'name': user.name,
+	        'status': 'call_pending',
+	        'tries': 0
 	      };
 	
 	      var db = FBApp.database();
@@ -1049,13 +1051,13 @@ module.exports =
 	
 	
 	  };
-	  return rule.toString().replace("fb-name", vars.FB_PROJECT_ID).replace("fb-client-email", vars.FB_CLIENT_EMAIL).replace("fb-private-key", vars.FB_PRIVATE_KEY.toString('utf8')).replace("fb-db-url", vars.FB_DB_URL);
+	  return rule.toString().replace('fb-name', vars.FB_PROJECT_ID).replace('fb-client-email', vars.FB_CLIENT_EMAIL).replace('fb-private-key', vars.FB_PRIVATE_KEY.toString('utf8').replace(/\\n/g, "' + \n '")).replace('fb-db-url', vars.FB_DB_URL);
 	
 	}
 	
 	
 	
-	module.exports = getRulesBody;
+	module.exports = getRulesBody(vars);
 
 
 /***/ },
