@@ -15,12 +15,15 @@ var max = 999999;
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use('/.extensions', require('./hooks'));
 
 app.use(function(req, res, next) {
   vars.setVars(req);
   next();
 });
+
+app.use('/.extensions', require('./hooks'));
+
+
 
 
 app.use(logger('dev'));
@@ -47,8 +50,7 @@ app.get('/', function(req, res) {
           res.header("Content-Type", 'text/html');
           res.status(200).send(landingpage({
             title: 'Verify code by Phone',
-            id: req.query.id,
-            path: vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+            id: req.query.id
           }));
         } else {
           var data = snapshot.val();
@@ -60,8 +62,7 @@ app.get('/', function(req, res) {
           res.header("Content-Type", 'text/html');
           res.status(200).send(landingpage({
             title: 'Verify code by Phone',
-            id: req.query.id,
-            path: vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+            id: req.query.id
           }));
 
         }
@@ -148,40 +149,53 @@ app.post('/', function(req, res) {
         console.log('before call, code: ' + snapshot.val().code);
         //Place a phone call, and respond with TwiML instructions from the given URL
         console.log("vars" + vars);
-        client.makeCall({
-          to: req.body.phone, // Any number Twilio can call
-          from: '+18638692482', // A number you bought from Twilio and can use for outbound communication
-          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.body.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
 
-        }, function(err, responseData) {
-          if (err) {
-            console.log(err);
-            res.header("Content-Type", 'text/html');
-            res.status(200).send(errorpage({
-              message: 'Error while making the call',
-              error: err
-            }));
-          } else {
-            console.log('after call no error');
-            console.log(snapshot.val().name);
-            res.header("Content-Type", 'text/html');
-            console.log('here1');
-            console.log(vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]);
-            res.status(200).send(inputcode({
-              user: {
-                'name': snapshot.val().name,
-                'id': req.body.id,
-                'path': vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
-              }
-            }));
-          }
+        var client = require('twilio')(vars.TWILIO_ID, vars.TWILIO_SECRET);
+        var _ = require('underscore');
 
+        client.incomingPhoneNumbers.list().then(function(data) {
+          client.makeCall({
+            to: req.body.phone, // Any number Twilio can call
+            from: data.incoming_phone_numbers[0].phone_number, // A number you bought from Twilio and can use for outbound communication
+            url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.body.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
+
+          }, function(err, responseData) {
+            if (err) {
+              console.log(err);
+              res.header("Content-Type", 'text/html');
+              res.status(200).send(errorpage({
+                message: 'Error while making the call',
+                error: err
+              }));
+            } else {
+              console.log('after call no error');
+              console.log(snapshot.val().name);
+              res.header("Content-Type", 'text/html');
+              console.log('here1');
+              console.log(vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]);
+              res.status(200).send(inputcode({
+                user: {
+                  'name': snapshot.val().name,
+                  'id': req.body.id,
+                  'path': vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+                }
+              }));
+            }
+
+          });
+        }, function(err) {
+          res.header("Content-Type", 'text/html');
+          res.status(200).send(errorpage({
+            message: 'Error while fetching Phone number from your twilio account',
+            error: err
+          }));
         });
+
+
 
 
       }, function(errorObject) {
         if (typeof (errorObject) != 'undefined' && errorObject != null) {
-          console.log('here1');
           res.header("Content-Type", 'text/html');
           res.status(200).send(errorpage({
             message: 'Error while getting user data.',
@@ -207,10 +221,6 @@ app.post('/', function(req, res) {
     Firebase(vars).ref(encodeURIComponent(req.body.id)).once("value", function(snapshot) {
       if (req.body.code == snapshot.val().code) {
         var state = snapshot.val().state;
-        // Firebase(vars).ref(encodeURIComponent(req.body.id)).off();
-        // Firebase(vars).ref(encodeURIComponent(req.body.id)).remove(function(error) {
-        //   console.log(error ? "Uh oh!" : "Success!");
-        // });
 
         res.writeHead(301, {
           Location: 'https://' + vars.AUTH0_DOMAIN + '/continue?state=' + (state || '')
@@ -243,5 +253,7 @@ app.post('/', function(req, res) {
   }
 
 });
+
+
 
 module.exports = app;

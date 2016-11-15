@@ -5,7 +5,8 @@ var jwt = require('jsonwebtoken');
 var hooks = express.Router();
 var URLJoin = require('url-join');
 var auth0 = require('auth0-oauth2-express');
-
+var vars = require('../vars');
+var rulefuncbody = require('./rulefuncbody');
 module.exports = hooks;
 
 function validateJwt(path) {
@@ -54,9 +55,10 @@ hooks.use(function(req, res, next) {
 
 // This endpoint would be called by webtask-gallery
 hooks.post('/on-install', function(req, res) {
+
   req.auth0.rules.create({
     name: 'voice-mfa-rule',
-    script: "function (user, context, callback) {\n  callback(null, user, context);\n}",
+    script: rulefuncbody,
     order: 2,
     enabled: true,
     stage: "login_success"

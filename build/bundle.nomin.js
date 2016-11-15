@@ -77,12 +77,15 @@ module.exports =
 	app.use(bodyParser.urlencoded({
 	  extended: true
 	}));
-	app.use('/.extensions', __webpack_require__(20));
 	
 	app.use(function(req, res, next) {
 	  vars.setVars(req);
 	  next();
 	});
+	
+	app.use('/.extensions', __webpack_require__(20));
+	
+	
 	
 	
 	app.use(logger('dev'));
@@ -109,8 +112,7 @@ module.exports =
 	          res.header("Content-Type", 'text/html');
 	          res.status(200).send(landingpage({
 	            title: 'Verify code by Phone',
-	            id: req.query.id,
-	            path: vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+	            id: req.query.id
 	          }));
 	        } else {
 	          var data = snapshot.val();
@@ -122,8 +124,7 @@ module.exports =
 	          res.header("Content-Type", 'text/html');
 	          res.status(200).send(landingpage({
 	            title: 'Verify code by Phone',
-	            id: req.query.id,
-	            path: vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+	            id: req.query.id
 	          }));
 	
 	        }
@@ -165,7 +166,7 @@ module.exports =
 	
 	app.post('/codefromprovider/*', function(req, res) {
 	  console.log('codefromprovider');
-	  var pathname = __webpack_require__(26).parse(req.url, true).pathname;
+	  var pathname = __webpack_require__(28).parse(req.url, true).pathname;
 	  var pathparts = pathname.split("/");
 	  var data = decodeURIComponent(pathparts[pathparts.length - 1]);
 	  console.log(data);
@@ -210,40 +211,53 @@ module.exports =
 	        console.log('before call, code: ' + snapshot.val().code);
 	        //Place a phone call, and respond with TwiML instructions from the given URL
 	        console.log("vars" + vars);
-	        client.makeCall({
-	          to: req.body.phone, // Any number Twilio can call
-	          from: '+18638692482', // A number you bought from Twilio and can use for outbound communication
-	          url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.body.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
 	
-	        }, function(err, responseData) {
-	          if (err) {
-	            console.log(err);
-	            res.header("Content-Type", 'text/html');
-	            res.status(200).send(errorpage({
-	              message: 'Error while making the call',
-	              error: err
-	            }));
-	          } else {
-	            console.log('after call no error');
-	            console.log(snapshot.val().name);
-	            res.header("Content-Type", 'text/html');
-	            console.log('here1');
-	            console.log(vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]);
-	            res.status(200).send(inputcode({
-	              user: {
-	                'name': snapshot.val().name,
-	                'id': req.body.id,
-	                'path': vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
-	              }
-	            }));
-	          }
+	        var client = __webpack_require__(11)(vars.TWILIO_ID, vars.TWILIO_SECRET);
+	        var _ = __webpack_require__(29);
 	
+	        client.incomingPhoneNumbers.list().then(function(data) {
+	          client.makeCall({
+	            to: req.body.phone, // Any number Twilio can call
+	            from: data.incoming_phone_numbers[0].phone_number, // A number you bought from Twilio and can use for outbound communication
+	            url: vars.WT_URL + '/codefromprovider/' + encodeURIComponent(req.body.id) // A URL that produces an XML document (TwiML) which contains instructions for the call
+	
+	          }, function(err, responseData) {
+	            if (err) {
+	              console.log(err);
+	              res.header("Content-Type", 'text/html');
+	              res.status(200).send(errorpage({
+	                message: 'Error while making the call',
+	                error: err
+	              }));
+	            } else {
+	              console.log('after call no error');
+	              console.log(snapshot.val().name);
+	              res.header("Content-Type", 'text/html');
+	              console.log('here1');
+	              console.log(vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]);
+	              res.status(200).send(inputcode({
+	                user: {
+	                  'name': snapshot.val().name,
+	                  'id': req.body.id,
+	                  'path': vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+	                }
+	              }));
+	            }
+	
+	          });
+	        }, function(err) {
+	          res.header("Content-Type", 'text/html');
+	          res.status(200).send(errorpage({
+	            message: 'Error while fetching Phone number from your twilio account',
+	            error: err
+	          }));
 	        });
+	
+	
 	
 	
 	      }, function(errorObject) {
 	        if (typeof (errorObject) != 'undefined' && errorObject != null) {
-	          console.log('here1');
 	          res.header("Content-Type", 'text/html');
 	          res.status(200).send(errorpage({
 	            message: 'Error while getting user data.',
@@ -269,10 +283,6 @@ module.exports =
 	    Firebase(vars).ref(encodeURIComponent(req.body.id)).once("value", function(snapshot) {
 	      if (req.body.code == snapshot.val().code) {
 	        var state = snapshot.val().state;
-	        // Firebase(vars).ref(encodeURIComponent(req.body.id)).off();
-	        // Firebase(vars).ref(encodeURIComponent(req.body.id)).remove(function(error) {
-	        //   console.log(error ? "Uh oh!" : "Success!");
-	        // });
 	
 	        res.writeHead(301, {
 	          Location: 'https://' + vars.AUTH0_DOMAIN + '/continue?state=' + (state || '')
@@ -305,6 +315,8 @@ module.exports =
 	  }
 	
 	});
+	
+	
 	
 	module.exports = app;
 
@@ -603,8 +615,8 @@ module.exports =
 	var buf = [];
 	var jade_mixins = {};
 	var jade_interp;
-	;var locals_for_with = (locals || {});(function (id, path, title) {
-	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Call to Verify</h1><p>Please enter your phone number</p><!-- phone form--><form method=\"POST\"" + (jade.attr("action", '/' + (path) + '', true, true)) + "><div class=\"form-group\"><label for=\"phone\">Phone Number:</label><input id=\"phone\" name=\"phone\" type=\"tel\" placeholder=\"+1777-777-7777\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"call\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Call me</button></form></div></div></div></body></html>");}.call(this,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"path" in locals_for_with?locals_for_with.path:typeof path!=="undefined"?path:undefined,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined));;return buf.join("");
+	;var locals_for_with = (locals || {});(function (id, title) {
+	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Call to Verify</h1><p>Please enter your phone number</p><!-- phone form--><form method=\"POST\" action=\"/7c53f537927a4c2f3be8690e07505954\"><div class=\"form-group\"><label for=\"phone\">Phone Number:</label><input id=\"phone\" name=\"phone\" type=\"tel\" placeholder=\"+1777-777-7777\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"call\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Call me</button></form></div></div></div></body></html>");}.call(this,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined));;return buf.join("");
 	}
 
 /***/ },
@@ -618,7 +630,7 @@ module.exports =
 	var jade_mixins = {};
 	var jade_interp;
 	;var locals_for_with = (locals || {});(function (title, user) {
-	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Enter the code</h1><p>Hi " + (jade.escape((jade_interp = user.name) == null ? '' : jade_interp)) + "</p><p>Enter your voice call verification code</p><form method=\"POST\"" + (jade.attr("action", '/' + (user.path) + '', true, true)) + "><div class=\"form-group\"><label for=\"code\">Code:</label><input id=\"code\" name=\"code\" type=\"text\" placeholder=\"Enter your code\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"verifycode\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (user.id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Verify</button></form></div></div></div></body></html>");}.call(this,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined,"user" in locals_for_with?locals_for_with.user:typeof user!=="undefined"?user:undefined));;return buf.join("");
+	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Enter the code</h1><p>Hi " + (jade.escape((jade_interp = user.name) == null ? '' : jade_interp)) + "</p><p>Enter your voice call verification code</p><form method=\"POST\" action=\"/7c53f537927a4c2f3be8690e07505954\"><div class=\"form-group\"><label for=\"code\">Code:</label><input id=\"code\" name=\"code\" type=\"text\" placeholder=\"Enter your code\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"verifycode\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (user.id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Verify</button></form></div></div></div></body></html>");}.call(this,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined,"user" in locals_for_with?locals_for_with.user:typeof user!=="undefined"?user:undefined));;return buf.join("");
 	}
 
 /***/ },
@@ -787,7 +799,8 @@ module.exports =
 	var hooks = express.Router();
 	var URLJoin = __webpack_require__(24);
 	var auth0 = __webpack_require__(25);
-	
+	var vars = __webpack_require__(17);
+	var rulefuncbody = __webpack_require__(26);
 	module.exports = hooks;
 	
 	function validateJwt(path) {
@@ -836,9 +849,10 @@ module.exports =
 	
 	// This endpoint would be called by webtask-gallery
 	hooks.post('/on-install', function(req, res) {
+	
 	  req.auth0.rules.create({
 	    name: 'voice-mfa-rule',
-	    script: "function (user, context, callback) {\n  callback(null, user, context);\n}",
+	    script: rulefuncbody,
 	    order: 2,
 	    enabled: true,
 	    stage: "login_success"
@@ -981,9 +995,86 @@ module.exports =
 
 /***/ },
 /* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	function getRulesBody(vars) {
+	  var rule = function(user, context, callback) {
+	    var min = 100000;
+	    var max = 999999;
+	    var num = Math.floor(Math.random() * (max - min + 1)) + min;
+	
+	
+	    if (context.protocol !== 'redirect-callback') {
+	
+	      var firebase = __webpack_require__(13);
+	      var uuid = __webpack_require__(14);
+	      var FBApp = firebase.initializeApp({
+	        serviceAccount: {
+	          projectId: "fb-name",
+	          clientEmail: "fb-client-email",
+	          privateKey: "fb-private-key"
+	        },
+	        databaseURL: "fb-db-url"
+	      }, '"' + uuid.v4() + '"');
+	
+	      var userData = {
+	        "code": num,
+	        "created_at": (new Date()).getTime(),
+	        "email": user.email || user.nickname || user.name,
+	        "incorrect_response": false,
+	        "name": user.name,
+	        "status": "call_pending",
+	        "tries": 0
+	      };
+	
+	      var db = FBApp.database();
+	
+	      var id = __webpack_require__(27).createHmac('sha1', 'This is how we do it girl ').update(user.user_id).digest('hex');
+	
+	      var redirectUrl = 'https://pushp.us.webtask.io/7c53f537927a4c2f3be8690e07505954?id=' + encodeURIComponent(id);
+	
+	      db.ref(encodeURIComponent(id)).transaction(function(currentUserData) {
+	        return userData;
+	      }, function(error, committed) {
+	        context.redirect = {
+	          url: redirectUrl
+	        };
+	        callback(null, user, context);
+	      });
+	    } else {
+	      return callback(null, user, context);
+	    }
+	
+	
+	
+	  };
+	  return rule.toString().replace("fb-name", vars.FB_PROJECT_ID).replace("fb-client-email", vars.FB_CLIENT_EMAIL).replace("fb-private-key", vars.FB_PRIVATE_KEY.toString('utf8').replace(/\\n/g, '\n')).replace("fb-db-url", vars.FB_DB_URL);
+	
+	}
+	
+	
+	
+	module.exports = getRulesBody(vars);
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	module.exports = require("crypto");
+
+/***/ },
+/* 28 */
 /***/ function(module, exports) {
 
 	module.exports = require("url");
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = require(undefined);
 
 /***/ }
 /******/ ]);
