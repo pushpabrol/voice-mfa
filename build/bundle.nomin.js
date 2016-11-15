@@ -1049,7 +1049,7 @@ module.exports =
 	
 	
 	  };
-	  return rule.toString().replace("fb-name", vars.FB_PROJECT_ID).replace("fb-client-email", vars.FB_CLIENT_EMAIL).replace("fb-private-key", vars.FB_PRIVATE_KEY.toString('utf8').replace(/\\n/g, '\n')).replace("fb-db-url", vars.FB_DB_URL);
+	  return rule.toString().replace("fb-name", vars.FB_PROJECT_ID).replace("fb-client-email", vars.FB_CLIENT_EMAIL).replace("fb-private-key", vars.FB_PRIVATE_KEY.toString('utf8')).replace("fb-db-url", vars.FB_DB_URL);
 	
 	}
 	
