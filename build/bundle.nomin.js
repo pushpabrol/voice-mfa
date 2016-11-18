@@ -702,7 +702,7 @@ module.exports =
 	    env.TWILIO_ID = req.webtaskContext.data.TWILIO_ID;
 	    env.TWILIO_SECRET = req.webtaskContext.data.TWILIO_SECRET;
 	    env.AUTH0_DOMAIN = req.webtaskContext.data.AUTH0_DOMAIN;
-	    env.WT_URL = req.webtaskContext.data.WT_URL;
+	    env.WT_URL = req.webtaskContext.secrets.WT_URL;
 	    env.FB_PROJECT_ID = req.webtaskContext.data.FB_PROJECT_ID;
 	    env.FB_CLIENT_EMAIL = req.webtaskContext.data.FB_CLIENT_EMAIL;
 	    env.FB_PRIVATE_KEY = req.webtaskContext.data.FB_PRIVATE_KEY;
@@ -1010,7 +1010,7 @@ module.exports =
 	    '        serviceAccount: {\n' +
 	    '          projectId: FB_PROJECT_ID,\n' +
 	    '          clientEmail: FB_CLIENT_EMAIL,\n' +
-	    '          privateKey: FB_PRIVATE_KEY.replace(/\\n/g, \'\n\')\n' +
+	    '          privateKey: FB_PRIVATE_KEY\n' +
 	    '        },\n' +
 	    '        databaseURL: FB_DB_URL\n' +
 	    '      }, \'"\' + uuid.v4() + \'"\');\n' +

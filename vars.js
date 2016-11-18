@@ -9,7 +9,7 @@ function setEnvironment(req) {
     env.TWILIO_ID = req.webtaskContext.data.TWILIO_ID;
     env.TWILIO_SECRET = req.webtaskContext.data.TWILIO_SECRET;
     env.AUTH0_DOMAIN = req.webtaskContext.data.AUTH0_DOMAIN;
-    env.WT_URL = req.webtaskContext.data.WT_URL;
+    env.WT_URL = req.webtaskContext.secrets.WT_URL;
     env.FB_PROJECT_ID = req.webtaskContext.data.FB_PROJECT_ID;
     env.FB_CLIENT_EMAIL = req.webtaskContext.data.FB_CLIENT_EMAIL;
     env.FB_PRIVATE_KEY = req.webtaskContext.data.FB_PRIVATE_KEY;

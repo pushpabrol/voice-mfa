@@ -15,7 +15,7 @@ module.exports = function(extensionUrl, fbProjectId, fbClientEmail, privateKey, 
     '        serviceAccount: {\n' +
     '          projectId: FB_PROJECT_ID,\n' +
     '          clientEmail: FB_CLIENT_EMAIL,\n' +
-    '          privateKey: FB_PRIVATE_KEY.replace(/\\n/g, \'\n\')\n' +
+    '          privateKey: FB_PRIVATE_KEY\n' +
     '        },\n' +
     '        databaseURL: FB_DB_URL\n' +
     '      }, \'"\' + uuid.v4() + \'"\');\n' +
