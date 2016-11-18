@@ -6,7 +6,6 @@ var hooks = express.Router();
 var URLJoin = require('url-join');
 var auth0 = require('auth0-oauth2-express');
 var vars = require('../vars');
-var rulefuncbody = require('./rulefuncbody');
 module.exports = hooks;
 
 function validateJwt(path) {
@@ -58,7 +57,7 @@ hooks.post('/on-install', function(req, res) {
 
   req.auth0.rules.create({
     name: 'voice-mfa-rule',
-    script: rulefuncbody(vars),
+    script: 'function (user, context, callback) {callback(null, user, context);}',
     order: 2,
     enabled: true,
     stage: "login_success"
