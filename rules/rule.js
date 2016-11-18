@@ -41,5 +41,5 @@ module.exports = function(extensionUrl, fbProjectId, fbClientEmail, privateKey, 
     '    } else {\n' +
     '      return callback(null, user, context);\n' +
     '    }\n' +
-    '    };';
+    '    }';
 };

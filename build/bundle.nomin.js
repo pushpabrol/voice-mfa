@@ -1036,7 +1036,7 @@ module.exports =
 	    '    } else {\n' +
 	    '      return callback(null, user, context);\n' +
 	    '    }\n' +
-	    '    };';
+	    '    }';
 	};
 
 
