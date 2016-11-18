@@ -148,7 +148,6 @@ app.post('/', function(req, res) {
         console.log("vars" + vars);
 
         var client = require('twilio')(vars.TWILIO_ID, vars.TWILIO_SECRET);
-        var _ = require('underscore');
 
         client.incomingPhoneNumbers.list().then(function(data) {
           client.makeCall({

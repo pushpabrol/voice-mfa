@@ -78,8 +78,6 @@ module.exports = Request.get(LIST_MODULES_URL, {
         var bundle = fs.readFileSync(path, 'utf8');
         bundle = bundle.replace(/require\("firebase"\)/ig, 'require("firebase@3.1.0")');
         bundle = bundle.replace(/require\("auth0"\)/ig, 'require("auth0@2.1.0")');
-        bundle = bundle.replace(/require\('firebase'\)/ig, "require('firebase@3.1.0')");
-        bundle = bundle.replace(/require\('auth0'\)/ig, "require('auth0@2.1.0')");
         fs.writeFileSync(path, bundle);
 
       }),
