@@ -47,7 +47,8 @@ app.get('/', function(req, res) {
           res.header("Content-Type", 'text/html');
           res.status(200).send(landingpage({
             title: 'Verify code by Phone',
-            id: req.query.id
+            id: req.query.id,
+            path: vars.WT_URL
           }));
         } else {
           var data = snapshot.val();
@@ -59,7 +60,8 @@ app.get('/', function(req, res) {
           res.header("Content-Type", 'text/html');
           res.status(200).send(landingpage({
             title: 'Verify code by Phone',
-            id: req.query.id
+            id: req.query.id,
+            path: vars.WT_URL
           }));
 
         }
@@ -173,7 +175,7 @@ app.post('/', function(req, res) {
                 user: {
                   'name': snapshot.val().name,
                   'id': req.body.id,
-                  'path': vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+                  'path': vars.WT_URL
                 }
               }));
             }

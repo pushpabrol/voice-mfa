@@ -109,7 +109,8 @@ module.exports =
 	          res.header("Content-Type", 'text/html');
 	          res.status(200).send(landingpage({
 	            title: 'Verify code by Phone',
-	            id: req.query.id
+	            id: req.query.id,
+	            path: vars.WT_URL
 	          }));
 	        } else {
 	          var data = snapshot.val();
@@ -121,7 +122,8 @@ module.exports =
 	          res.header("Content-Type", 'text/html');
 	          res.status(200).send(landingpage({
 	            title: 'Verify code by Phone',
-	            id: req.query.id
+	            id: req.query.id,
+	            path: vars.WT_URL
 	          }));
 	
 	        }
@@ -235,7 +237,7 @@ module.exports =
 	                user: {
 	                  'name': snapshot.val().name,
 	                  'id': req.body.id,
-	                  'path': vars.WT_URL.split('/')[vars.WT_URL.split('/').length - 1]
+	                  'path': vars.WT_URL
 	                }
 	              }));
 	            }
@@ -611,8 +613,8 @@ module.exports =
 	var buf = [];
 	var jade_mixins = {};
 	var jade_interp;
-	;var locals_for_with = (locals || {});(function (id, title) {
-	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Call to Verify</h1><p>Please enter your phone number</p><!-- phone form--><form method=\"POST\" action=\"/7c53f537927a4c2f3be8690e07505954\"><div class=\"form-group\"><label for=\"phone\">Phone Number:</label><input id=\"phone\" name=\"phone\" type=\"tel\" placeholder=\"+1777-777-7777\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"call\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Call me</button></form></div></div></div></body></html>");}.call(this,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined));;return buf.join("");
+	;var locals_for_with = (locals || {});(function (id, path, title) {
+	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Call to Verify</h1><p>Please enter your phone number</p><!-- phone form--><form method=\"POST\"" + (jade.attr("action", '' + (path) + '', true, true)) + "><div class=\"form-group\"><label for=\"phone\">Phone Number:</label><input id=\"phone\" name=\"phone\" type=\"tel\" placeholder=\"+1777-777-7777\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"call\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Call me</button></form></div></div></div></body></html>");}.call(this,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"path" in locals_for_with?locals_for_with.path:typeof path!=="undefined"?path:undefined,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined));;return buf.join("");
 	}
 
 /***/ },
@@ -626,7 +628,7 @@ module.exports =
 	var jade_mixins = {};
 	var jade_interp;
 	;var locals_for_with = (locals || {});(function (title, user) {
-	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Enter the code</h1><p>Hi " + (jade.escape((jade_interp = user.name) == null ? '' : jade_interp)) + "</p><p>Enter your voice call verification code</p><form method=\"POST\" action=\"/7c53f537927a4c2f3be8690e07505954\"><div class=\"form-group\"><label for=\"code\">Code:</label><input id=\"code\" name=\"code\" type=\"text\" placeholder=\"Enter your code\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"verifycode\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (user.id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Verify</button></form></div></div></div></body></html>");}.call(this,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined,"user" in locals_for_with?locals_for_with.user:typeof user!=="undefined"?user:undefined));;return buf.join("");
+	buf.push("<!DOCTYPE html><html><head><title>" + (jade.escape(null == (jade_interp = title) ? "" : jade_interp)) + "</title><link href=\"https://cdn.auth0.com/styleguide/4.8.13/index.min.css\" rel=\"stylesheet\"></head><body><div class=\"logo-branding\"><img src=\"https://styleguide.auth0.com/lib/logos/img/logo-blue.png\" width=\"100px\"></div><div class=\"main container\"><div class=\"row\"><div class=\"col-md-6 col-md-offset-3\"><h1 class=\"display-4 m-b-2\">Enter the code</h1><p>Hi " + (jade.escape((jade_interp = user.name) == null ? '' : jade_interp)) + "</p><p>Enter your voice call verification code</p><form method=\"POST\"" + (jade.attr("action", '' + (user.path) + '', true, true)) + "><div class=\"form-group\"><label for=\"code\">Code:</label><input id=\"code\" name=\"code\" type=\"text\" placeholder=\"Enter your code\" required class=\"form-control\"><input id=\"type\" name=\"type\" type=\"hidden\" value=\"verifycode\" class=\"form-control\"><input id=\"id\" name=\"id\" type=\"hidden\"" + (jade.attr("value", '' + (user.id) + '', true, true)) + " class=\"form-control\"></div><button type=\"submit\" class=\"btn btn-primary\">Verify</button></form></div></div></div></body></html>");}.call(this,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined,"user" in locals_for_with?locals_for_with.user:typeof user!=="undefined"?user:undefined));;return buf.join("");
 	}
 
 /***/ },
