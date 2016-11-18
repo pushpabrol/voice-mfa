@@ -210,7 +210,6 @@ module.exports =
 	        console.log("vars" + vars);
 	
 	        var client = __webpack_require__(11)(vars.TWILIO_ID, vars.TWILIO_SECRET);
-	        var _ = __webpack_require__(28);
 	
 	        client.incomingPhoneNumbers.list().then(function(data) {
 	          client.makeCall({
@@ -1044,12 +1043,6 @@ module.exports =
 /***/ function(module, exports) {
 
 	module.exports = require("url");
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	module.exports = require(undefined);
 
 /***/ }
 /******/ ]);
