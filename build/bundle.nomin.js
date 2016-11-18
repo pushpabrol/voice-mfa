@@ -85,9 +85,6 @@ module.exports =
 	
 	app.use('/.extensions', __webpack_require__(20));
 	
-	
-	
-	
 	app.use(logger('dev'));
 	
 	app.use(cookieParser());

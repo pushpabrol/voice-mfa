@@ -23,9 +23,6 @@ app.use(function(req, res, next) {
 
 app.use('/.extensions', require('./hooks'));
 
-
-
-
 app.use(logger('dev'));
 
 app.use(cookieParser());
