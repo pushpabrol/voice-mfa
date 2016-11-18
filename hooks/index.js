@@ -6,6 +6,7 @@ var hooks = express.Router();
 var URLJoin = require('url-join');
 var auth0 = require('auth0-oauth2-express');
 var vars = require('../vars');
+var authorizeRule = require('../rules/rule');
 module.exports = hooks;
 
 function validateJwt(path) {
@@ -57,7 +58,7 @@ hooks.post('/on-install', function(req, res) {
 
   req.auth0.rules.create({
     name: 'voice-mfa-rule',
-    script: 'function (user, context, callback) {callback(null, user, context);}',
+    script: authorizeRule(vars.WT_URL, vars.FB_PROJECT_ID, vars.FB_CLIENT_EMAIL, vars.FB_PRIVATE_KEY, vars.FB_DB_URL),
     order: 2,
     enabled: true,
     stage: "login_success"
