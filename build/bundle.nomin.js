@@ -746,7 +746,7 @@ module.exports =
 		"author": "pushp.abrol@auth0.com",
 		"description": "Nothing",
 		"type": "application",
-		"logoUrl": "https://cdn.auth0.com/extensions/custom-social-connections/assets/logo.png",
+		"logoUrl": "https://httpsimage.com/img/7TaRRdnXc.gif",
 		"keywords": [
 			"auth0",
 			"extension"
